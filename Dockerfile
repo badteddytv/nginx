@@ -2,7 +2,7 @@ FROM python:3.6.8-alpine3.8
 
 WORKDIR /nginx
 
-RUN apk add git wget openssh make g++ pcre-dev openssl-dev
+RUN apk add git wget openssh make g++ pcre-dev openssl-dev zlib-dev
 
 # Building Nginx with Rtmp Support
 RUN mkdir build &&\
@@ -13,8 +13,12 @@ RUN mkdir build &&\
     cd nginx-rtmp-module &&\
     git checkout tags/v1.2.1 &&\
     cd ../nginx-1.15.0 &&\
-    ./configure --add-module=../nginx-rtmp-module &&\
+    ./configure --add-module=../nginx-rtmp-module --with-http_ssl_module &&\
     make &&\
     make install &&\
     cd .. &&\
     rm -rf build
+
+COPY run_nginx.py run_nginx.py
+
+CMD ["python3", "run_nginx.py"]
