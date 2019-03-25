@@ -24,13 +24,8 @@ subprocess.Popen([
             )
 
 while True:
-    #print('reloading')
-    #subprocess.Popen([
-    #        '/usr/local/nginx/sbin/nginx',
-    #        '-s',
-    #        'reload',
-    #        '-g',
-    #        '"daemon off;"'
-    #        ],
-    #        shell=True)
+    print('reloading')
+    subprocess.Popen([
+        '/usr/local/nginx/sbin/nginx -s reload'
+        ])
     time.sleep(3)
