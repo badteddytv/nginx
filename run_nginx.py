@@ -23,6 +23,8 @@ subprocess.Popen([
             shell=True
             )
 
+time.sleep(5)
+
 while True:
     print('reloading')
     subprocess.Popen('/usr/local/nginx/sbin/nginx -s reload')
