@@ -20,5 +20,8 @@ RUN mkdir build &&\
     rm -rf build
 
 COPY run_nginx.py run_nginx.py
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
 
 CMD ["python3", "run_nginx.py"]
