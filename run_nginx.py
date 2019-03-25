@@ -11,6 +11,7 @@ async def redis_pool():
             redis = await aioredis.create_redis_pool(config.REDIS_URL)
             break
         except Exception:
+            print('error connecting to redis, retrying in 5s')
             await asyncio.sleep(5)
     return redis
 
