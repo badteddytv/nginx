@@ -28,5 +28,5 @@ time.sleep(5)
 
 while True:
     print('reloading')
-    subprocess.Popen('/usr/local/nginx/sbin/nginx -s reload')
+    subprocess.Popen('/usr/local/nginx/sbin/nginx -s reload', shell=True)
     time.sleep(3)
