@@ -1,1 +1,2 @@
 aioredis
+git+https://github.com/badteddytv/stood_python.git

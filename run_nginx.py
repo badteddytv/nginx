@@ -3,6 +3,7 @@ import time
 import subprocess
 import aioredis
 from config import config
+from logger import log
 
 
 async def redis_pool():
@@ -11,7 +12,7 @@ async def redis_pool():
             redis = await aioredis.create_redis_pool(config.REDIS_URL)
             break
         except Exception:
-            print('error connecting to redis, retrying in 5s')
+            log.warning('error connecting to redis, retrying in 5s')
             await asyncio.sleep(5)
     return redis
 
@@ -24,9 +25,24 @@ subprocess.Popen([
             shell=True
             )
 
-time.sleep(5)
 
-while True:
-    print('reloading')
-    subprocess.Popen('/usr/local/nginx/sbin/nginx -s reload', shell=True)
-    time.sleep(3)
+host_set = set()
+
+
+async def run_reload_loop():
+    global host_set
+    while True:
+        current_set = set()
+        cur = b'0'  # set initial cursor to 0
+        while cur:
+            cur, keys = await redis.scan(cur)
+            for k in keys:
+                current_set.add(k)
+        if host_set != current_set:
+            log.info('reloading')
+            subprocess.Popen('/usr/local/nginx/sbin/nginx -s reload', shell=True)
+
+        host_set = current_set
+        await asyncio.sleep(5)
+
+asyncio.get_event_loop().run_until_complete(run_reload_loop())
