@@ -28,6 +28,9 @@ subprocess.Popen([
 
 host_set = set()
 
+# give nginx some time to start up before reloading
+time.sleep(3)
+
 
 async def run_reload_loop():
     global host_set
