@@ -21,7 +21,7 @@ RUN mkdir build &&\
 
 COPY . .
 
-COPY nginx.conf /usr/local/nginx/conf
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
 
 RUN mkdir /usr/local/nginx/nginx/conf/servers
 
