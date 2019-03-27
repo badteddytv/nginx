@@ -22,6 +22,8 @@ RUN mkdir build &&\
 COPY . .
 
 RUN rm /usr/local/nginx/conf/nginx.conf
+RUN mkdir /usr/local/nginx/conf/http_servers
+RUN mkdir /usr/local/nginx/conf/rtmp_servers
 
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
 
