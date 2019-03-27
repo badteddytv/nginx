@@ -21,9 +21,9 @@ RUN mkdir build &&\
 
 COPY . .
 
-COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+RUN rm /usr/local/nginx/conf/nginx.conf
 
-RUN mkdir /usr/local/nginx/nginx/conf/servers
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
 
 RUN pip3 install -r requirements.txt
 
