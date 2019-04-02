@@ -8,7 +8,7 @@ events {
 
 http {
 {% for key, value in data.items() %}
-    upstream {{ key }} {
+    upstream nginx_{{ key }} {
       {% for s in value -%}
       server {{ s.host }}:{{ s.port }};
       {% endfor -%}
