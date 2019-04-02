@@ -1,0 +1,22 @@
+pid        logs/nginx.pid;
+worker_rlimit_nofile 8192;
+
+events {
+  worker_connections  4096;  ## Default: 1024
+}
+
+
+http {
+{% for key, value in data.items() %}
+    upstream {{ key }} {
+      {% for s in value -%}
+      server {{ s.host }}:{{ s.port }};
+      {% endfor -%}
+      }
+  {% endfor -%}
+}
+
+
+rtmp {
+  include rtmp_servers/*.conf;
+}
