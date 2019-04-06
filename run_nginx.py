@@ -36,6 +36,7 @@ host_set = set()
 async def run_reload_loop():
     global host_set
     while True:
+        await asyncio.sleep(5)
         current_set = set()
         cur = b'0'  # set initial cursor to 0
         while cur:
@@ -49,8 +50,7 @@ async def run_reload_loop():
             reload_config()
             render_and_save(data)
         host_set = current_set
-        print(host_set)
-        await asyncio.sleep(5)
+        log.info(host_set)
 
 start()
 time.sleep(3)
