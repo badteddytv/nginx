@@ -1,10 +1,12 @@
 from jinja2 import Environment, FileSystemLoader
+from jinja2.exceptions import TemplateNotFound
+from logger import log
 
 
-def render(data, directory='.'):
-    file_loader = FileSystemLoader(directory)
+def render(data, filename):
+    file_loader = FileSystemLoader('.')
     env = Environment(loader=file_loader)
-    template = env.get_template('nginx.conf.jinja')
+    template = env.get_template(filename)
     output = template.render(data=data)
     return output
 
@@ -17,11 +19,18 @@ def save(output, directory='.'):
 
 
 def render_and_save(data):
-    http_output = render(data, 'http_templates')
-    rtmp_output = render(data, 'rtmp_templates')
+    try:
+        http_output = render(data, 'http.nginx.conf.jinja')
+        print(http_output)
+        save(http_output, 'http_servers')
+    except TemplateNotFound:
+        log.info('no http template supplied')
 
-    save(http_output, 'http_servers')
-    save(rtmp_output, 'rtmp_servers')
+    try:
+        rtmp_output = render(data, 'rtmp.nginx.conf.jinja')
+        save(rtmp_output, 'rtmp_servers')
+    except TemplateNotFound:
+        log.info('no rtmp template supplied')
 
 
 if __name__ == '__main__':

@@ -19,18 +19,18 @@ RUN mkdir build &&\
     cd .. &&\
     rm -rf build
 
-COPY . .
+COPY requirements.txt requirements.txt
+
+RUN pip3 install -r requirements.txt
+
+COPY . . 
 
 RUN rm /usr/local/nginx/conf/nginx.conf
-RUN mkdir /usr/local/nginx/conf/http_templates
-RUN mkdir /usr/local/nginx/conf/rtmp_templates
 RUN mkdir /usr/local/nginx/conf/http_servers
 RUN mkdir /usr/local/nginx/conf/rtmp_servers
 
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
-COPY nginx.conf.jinja .
 
-RUN pip3 install -r requirements.txt
 
 
 
