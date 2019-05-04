@@ -37,20 +37,23 @@ async def run_reload_loop():
     global host_set
     while True:
         await asyncio.sleep(5)
-        current_set = set()
-        cur = b'0'  # set initial cursor to 0
-        while cur:
-            cur, keys = await redis.scan(cur)
-            for k in keys:
-                current_set.add(k.decode('utf-8'))
+        try:
+            current_set = set()
+            cur = b'0'  # set initial cursor to 0
+            while cur:
+                cur, keys = await redis.scan(cur)
+                for k in keys:
+                    current_set.add(k.decode('utf-8'))
 
-        if host_set != current_set:
-            data = parse_keys(current_set)
-            log.info('reloading')
-            reload_config()
-            render_and_save(data)
-        host_set = current_set
-        log.info(host_set)
+            if host_set != current_set:
+                data = parse_keys(current_set)
+                log.info('reloading')
+                reload_config()
+                render_and_save(data)
+            host_set = current_set
+            log.info(host_set)
+        except Exception:
+            log.exception('')
 
 start()
 time.sleep(3)
