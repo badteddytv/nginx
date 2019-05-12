@@ -4,6 +4,7 @@ from logger import log
 from render import render_and_save
 from nginx import start, reload_config
 from redis import redis
+from config import config
 
 
 def parse_keys(keys):
@@ -57,4 +58,5 @@ async def run_reload_loop():
 
 start()
 time.sleep(3)
-asyncio.get_event_loop().run_until_complete(run_reload_loop())
+if not config.DISABLE_RELOAD:
+    asyncio.get_event_loop().run_until_complete(run_reload_loop())

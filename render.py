@@ -21,7 +21,6 @@ def save(output, directory='.'):
 def render_and_save(data):
     try:
         http_output = render(data, 'http.nginx.conf.jinja')
-        print(http_output)
         save(http_output, 'http_servers')
     except TemplateNotFound:
         log.info('no http template supplied')
