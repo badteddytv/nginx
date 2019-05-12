@@ -58,5 +58,4 @@ async def run_reload_loop():
 
 start()
 time.sleep(3)
-if not config.DISABLE_RELOAD:
-    asyncio.get_event_loop().run_until_complete(run_reload_loop())
+asyncio.get_event_loop().run_until_complete(run_reload_loop())
