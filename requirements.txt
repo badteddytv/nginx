@@ -1,3 +1,0 @@
-aioredis
-Jinja2
-git+https://github.com/badteddytv/stood_python.git
